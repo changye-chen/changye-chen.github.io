@@ -19,24 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"changye-chen.github.io.git","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="changye-chen">
-<meta property="og:url" content="https://changye-chen.github.io.git/archives/2023/index.html">
+    <meta name="description" content="简介本篇文章的目的是为了介绍部署方案中的环境配置，环境配置是任何项目部署的关键。笔者使用的操作系统：Ubuntu22.04 LTS  Driver &amp;&amp; CUDA Toolkit第一步，查看当前显卡支持的最高版本驱动 1nvidia-smi 命令输出的Driver Version就是当前显卡支持的最高版本的显卡驱动，CUDA Version同理。第二步，下载安装显卡驱动和CUDA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LLM部署-环境篇">
+<meta property="og:url" content="https://changye-chen.github.io.git/2023/06/03/LLM%E9%83%A8%E7%BD%B2-%E7%8E%AF%E5%A2%83%E7%AF%87/index.html">
 <meta property="og:site_name" content="changye-chen">
+<meta property="og:description" content="简介本篇文章的目的是为了介绍部署方案中的环境配置，环境配置是任何项目部署的关键。笔者使用的操作系统：Ubuntu22.04 LTS  Driver &amp;&amp; CUDA Toolkit第一步，查看当前显卡支持的最高版本驱动 1nvidia-smi 命令输出的Driver Version就是当前显卡支持的最高版本的显卡驱动，CUDA Version同理。第二步，下载安装显卡驱动和CUDA">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-03T06:36:43.000Z">
+<meta property="article:modified_time" content="2023-06-03T07:41:10.564Z">
 <meta property="article:author" content="Czh">
-<meta property="article:tag" content="C&#x2F;C++, LLM, Bash, study">
+<meta property="article:tag" content="llm content">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://changye-chen.github.io.git/archives/2023/">
+<link rel="canonical" href="https://changye-chen.github.io.git/2023/06/03/LLM%E9%83%A8%E7%BD%B2-%E7%8E%AF%E5%A2%83%E7%AF%87/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"archives/2023/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://changye-chen.github.io.git/2023/06/03/LLM%E9%83%A8%E7%BD%B2-%E7%8E%AF%E5%A2%83%E7%AF%87/","path":"2023/06/03/LLM部署-环境篇/","title":"LLM部署-环境篇"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>归档 | changye-chen</title>
+<title>LLM部署-环境篇 | changye-chen</title>
   
 
 
@@ -69,7 +73,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">changye-chen</h1>
+      <p class="site-title">changye-chen</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">长夜未至</p>
@@ -96,7 +100,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -109,6 +113,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Driver-amp-amp-CUDA-Toolkit"><span class="nav-number">2.</span> <span class="nav-text">Driver &amp;&amp; CUDA Toolkit</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -142,109 +147,96 @@
 
     </div>
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 4 篇日志。 继续努力。</span>
-      </div>
 
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://changye-chen.github.io.git/2023/06/03/LLM%E9%83%A8%E7%BD%B2-%E7%8E%AF%E5%A2%83%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Czh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="changye-chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LLM部署-环境篇 | changye-chen">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LLM部署-环境篇
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
+
+      <time title="创建时间：2023-06-03 14:36:43 / 修改时间：15:41:10" itemprop="dateCreated datePublished" datetime="2023-06-03T14:36:43+08:00">2023-06-03</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><hr>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>本篇文章的目的是为了介绍部署方案中的环境配置，环境配置是任何项目部署的关键。<br>笔者使用的操作系统：Ubuntu22.04 LTS</p>
+<hr>
+<h3 id="Driver-amp-amp-CUDA-Toolkit"><a href="#Driver-amp-amp-CUDA-Toolkit" class="headerlink" title="Driver &amp;&amp; CUDA Toolkit"></a>Driver &amp;&amp; CUDA Toolkit</h3><p>第一步，查看当前显卡支持的最高版本驱动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure>
+<p>命令输出的Driver Version就是当前显卡支持的最高版本的显卡驱动，CUDA Version同理。<br>第二步，下载安装显卡驱动和CUDA Toolkit<br>访问<a href="">此处</a>，登录后</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-06-03T14:38:35+08:00"
-              content="2023-06-03">
-          06-03
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/06/03/LLM%E9%83%A8%E7%BD%B2-%E9%83%A8%E7%BD%B2%E7%AF%87/" itemprop="url">
-            <span itemprop="name">LLM部署-部署篇</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/llm-content/" rel="tag"># llm content</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/06/03/LLM%E9%83%A8%E7%BD%B2-%E6%A6%82%E8%A7%88/" rel="next" title="LLM部署-概览">
+                  LLM部署-概览 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-06-03T14:37:54+08:00"
-              content="2023-06-03">
-          06-03
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/06/03/LLM%E9%83%A8%E7%BD%B2-%E4%BB%A3%E7%90%86%E7%AF%87/" itemprop="url">
-            <span itemprop="name">LLM部署-代理篇</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-06-03T14:37:46+08:00"
-              content="2023-06-03">
-          06-03
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/06/03/LLM%E9%83%A8%E7%BD%B2-%E6%A6%82%E8%A7%88/" itemprop="url">
-            <span itemprop="name">LLM部署-概览</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-06-03T14:36:43+08:00"
-              content="2023-06-03">
-          06-03
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/06/03/LLM%E9%83%A8%E7%BD%B2-%E7%8E%AF%E5%A2%83%E7%AF%87/" itemprop="url">
-            <span itemprop="name">LLM部署-环境篇</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
 
 </div>
   </main>
