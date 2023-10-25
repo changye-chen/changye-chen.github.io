@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"changye-chen.github.io.git","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="摘要尽管大语言模型在许多任务令人印象深刻，但预训练好的模型是静态的，无法应对日新月异的世界变化，例如如果你问chatgpt谁赢得了世界杯冠军，他会回答法国（2017），而不是阿根廷（2022），即使询问时指定2021年，它只会告诉你它的知识来自于2021年以前，并且不知道这之后的事情。这篇文章提供了如何使大语言模型对齐始终变化的世界而不用从零开始重新训练一个的预训练模型的一系列最新进展 介绍大语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LLM论文详解-《大语言模型如何捕捉变化的世界知识？》（综述）">
+<meta property="og:url" content="https://changye-chen.github.io.git/2023/10/23/LLM%E8%AE%BA%E6%96%87%E8%AF%A6%E8%A7%A3-%E3%80%8A%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%A6%82%E4%BD%95%E6%8D%95%E6%8D%89%E5%8F%98%E5%8C%96%E7%9A%84%E4%B8%96%E7%95%8C%E7%9F%A5%E8%AF%86%EF%BC%9F%E3%80%8B%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89/index.html">
+<meta property="og:site_name" content="changye-chen">
+<meta property="og:description" content="摘要尽管大语言模型在许多任务令人印象深刻，但预训练好的模型是静态的，无法应对日新月异的世界变化，例如如果你问chatgpt谁赢得了世界杯冠军，他会回答法国（2017），而不是阿根廷（2022），即使询问时指定2021年，它只会告诉你它的知识来自于2021年以前，并且不知道这之后的事情。这篇文章提供了如何使大语言模型对齐始终变化的世界而不用从零开始重新训练一个的预训练模型的一系列最新进展 介绍大语言">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-23T14:30:39.000Z">
+<meta property="article:modified_time" content="2023-10-25T07:55:00.881Z">
+<meta property="article:author" content="Czh">
+<meta property="article:tag" content="paper reading, LLM, review">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://changye-chen.github.io.git/2023/10/23/LLM%E8%AE%BA%E6%96%87%E8%AF%A6%E8%A7%A3-%E3%80%8A%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%A6%82%E4%BD%95%E6%8D%95%E6%8D%89%E5%8F%98%E5%8C%96%E7%9A%84%E4%B8%96%E7%95%8C%E7%9F%A5%E8%AF%86%EF%BC%9F%E3%80%8B%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://changye-chen.github.io.git/2023/10/23/LLM%E8%AE%BA%E6%96%87%E8%AF%A6%E8%A7%A3-%E3%80%8A%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%A6%82%E4%BD%95%E6%8D%95%E6%8D%89%E5%8F%98%E5%8C%96%E7%9A%84%E4%B8%96%E7%95%8C%E7%9F%A5%E8%AF%86%EF%BC%9F%E3%80%8B%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89/","path":"2023/10/23/LLM论文详解-《大语言模型如何捕捉变化的世界知识？》（综述）/","title":"LLM论文详解-《大语言模型如何捕捉变化的世界知识？》（综述）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LLM论文详解-《大语言模型如何捕捉变化的世界知识？》（综述） | changye-chen</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">changye-chen</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">长夜未至</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%8E%E4%B8%96%E7%95%8C%E7%9F%A5%E8%AF%86%E9%9A%90%E5%BC%8F%E5%AF%B9%E9%BD%90"><span class="nav-number">3.</span> <span class="nav-text">模型与世界知识隐式对齐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#knowledge-editing"><span class="nav-number">3.1.</span> <span class="nav-text">knowledge editing</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#meta-learning"><span class="nav-number">3.1.1.</span> <span class="nav-text">meta-learning</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hypernetwork-Editer"><span class="nav-number">3.1.2.</span> <span class="nav-text">Hypernetwork Editer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#locate-and-Edit"><span class="nav-number">3.1.3.</span> <span class="nav-text">locate and Edit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E5%AE%83"><span class="nav-number">3.1.4.</span> <span class="nav-text">其它</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#continual-learning"><span class="nav-number">3.2.</span> <span class="nav-text">continual learning</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Czh</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://changye-chen.github.io.git/2023/10/23/LLM%E8%AE%BA%E6%96%87%E8%AF%A6%E8%A7%A3-%E3%80%8A%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%A6%82%E4%BD%95%E6%8D%95%E6%8D%89%E5%8F%98%E5%8C%96%E7%9A%84%E4%B8%96%E7%95%8C%E7%9F%A5%E8%AF%86%EF%BC%9F%E3%80%8B%EF%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Czh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="changye-chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LLM论文详解-《大语言模型如何捕捉变化的世界知识？》（综述） | changye-chen">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LLM论文详解-《大语言模型如何捕捉变化的世界知识？》（综述）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-10-23 22:30:39" itemprop="dateCreated datePublished" datetime="2023-10-23T22:30:39+08:00">2023-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-10-25 15:55:00" itemprop="dateModified" datetime="2023-10-25T15:55:00+08:00">2023-10-25</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>尽管大语言模型在许多任务令人印象深刻，但预训练好的模型是静态的，无法应对日新月异的世界变化，<br>例如如果你问chatgpt谁赢得了世界杯冠军，他会回答法国（2017），而不是阿根廷（2022），即使询<br>问时指定2021年，它只会告诉你它的知识来自于2021年以前，并且不知道这之后的事情。这篇文章提供<br>了如何使大语言模型对齐始终变化的世界而不用从零开始重新训练一个的预训练模型的一系列最新进展</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>大语言模型诞生于大量的种类繁多的语料资源库（github,wikipedia,etc），它们的一些重要特征使得<br>其能够适应很多不同的自然语言处理任务。但是，当大语言模型完成预训练以后，就成为静态的模型了<br>，没有机制能够使它们自我更新以适应变化的世界。<br>从直觉上看，要更新一个预训练模型，你可以选择通过隐式的更新模型内部参数的方式，或是显式的用<br>新的检索到的知识改变输出，替换模型参数蕴藏的那些淘汰掉的知识。有大量的工作已经被提出，本文<br>通过方法划分的方式系统研究了其中具有代表性的文章。</p>
+<p>分类法：基于该方法是否倾向于直接改变llm中隐式存储的知识，或者利用外部资源覆盖过时的知识，<br>我们将它们大致分为隐式或显式方法。</p>
+<ul>
+<li>隐式方法指这些方法寻求直接取代模型参数中存储的知识</li>
+<li>显示方法指这些方法寻求使用外部资源取代模型部分输出</li>
+</ul>
+<h2 id="模型与世界知识隐式对齐"><a href="#模型与世界知识隐式对齐" class="headerlink" title="模型与世界知识隐式对齐"></a>模型与世界知识隐式对齐</h2><p>此前的研究表明，要改变预训练模型的参数有两种方式，重新训练或者是微调。然而重新训练对十亿为<br>数量级的模型参数是不可接受的，微调则可能会导致蝴蝶效应，影响模型的整体表现。为了应对这些问<br>题，研究者们提出knowledge editing和continual learning。</p>
+<h3 id="knowledge-editing"><a href="#knowledge-editing" class="headerlink" title="knowledge editing"></a>knowledge editing</h3><p>由于微调学习新知识的不可行，研究者们开始寻求更直接、特定、微粒度的更新知识方法。本文将其分<br>类为meta-learning, hypernetwork和locate-and-editbased方法</p>
+<h4 id="meta-learning"><a href="#meta-learning" class="headerlink" title="meta-learning"></a>meta-learning</h4><p>这个方法专注于模型自身的可修改性，目标是在推理时能轻易的更改模型参数。Sinitin等人提出一种<br>元学习方法，用这个方法训练的模型很容易改变它的参数。Chen等人提出一个双循环框架，内循环采用<br>少量梯度更新使预训练的gpt2模型能有效记住外部知识，外循环中，模型参数通过最优元学习动态调整<br>，以纳入有助于推理任务的额外知识。</p>
+<h4 id="Hypernetwork-Editer"><a href="#Hypernetwork-Editer" class="headerlink" title="Hypernetwork Editer"></a>Hypernetwork Editer</h4><p>这个方法专注于冻结模型，避免对基础模型做任何修改。早在2017年就有人提出过冻结原始权重训练并<br>仅训练偏移权重来模拟权重更新。更进一步，为了适应大参数模型，2022年lora被提出，它将模型参数<br>矩阵进行低秩分解以显著降低参数量，在原始模型任一层都可以引入分解矩阵，代替原矩阵参与训练。<br>2023年提出老师-学生知识蒸馏模型，以及在表示层进行知识编辑的方法。</p>
+<h4 id="locate-and-Edit"><a href="#locate-and-Edit" class="headerlink" title="locate and Edit"></a>locate and Edit</h4><p>这个方法专注于对症下药，通过一系列假设推定特定知识的参数位置，直接更新这部分权重来代表知识<br>更新，2017年一篇文章曾经指出transformer的前馈神经网络事实上是键值对记忆体，Dai等人提出知识<br>神经元的概念，并给出一种在前馈神经网络中标识知识神经元的方法。不久后，在没有微调的情况下，<br>他们直接修改了一些关联的值群，成功更新或删除了知识。</p>
+<p>下面一段内容我现在不是很了解，暂时贴译文<br>与Geva等人(2021)的每个神经元视图不同，孟等人(2022a)对GPT-2进行随意跟踪分析，并假设<br>Transformer MLP可以被视为线性联想记忆。他们通过使用一级更新直接更新中间层 MLP 权重来验证他<br>们的假设（Baum 等人，2020）。继孟等人(2022a)的工作之后，孟等人(2023)提出了一种可扩展的多层<br>方法来同时更新具有数千个事实的LLM，在保持泛化和特异性的同时显著提高了编辑效率。古普塔等人。<br>(2023a) 进一步适应它修复常识性错误。Li等人(2023b)发现Multi-Head SelfAttention (MHSA)权重在<br>引入新知识时不需要更新。在此基础上，他们提出通过同时优化MHSA和FFN的Transformer组件隐藏状态<br>来记忆目标知识来精确更新FFN权重。Chen等人(2023b)提出了一种架构适应的多语言集成梯度方法，以<br>在多个架构和语言中精确地定位知识神经元。Geva等人(2023)分析了自回归lm中事实关联的内部回忆过<br>程，为知识定位和模型编辑开辟了新的研究方向。</p>
+<h4 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h4><p>任何方法都需要评估有效性的标准，这段主要提及评估知识编辑有效性的框架和数据集</p>
+<h3 id="continual-learning"><a href="#continual-learning" class="headerlink" title="continual learning"></a>continual learning</h3><p>持续学习旨在使模型具有学习连续性数据流且减少灾难性遗忘的能力</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/paper-reading-LLM-review/" rel="tag"># paper reading, LLM, review</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/06/03/LLM%E9%83%A8%E7%BD%B2-%E9%83%A8%E7%BD%B2%E7%AF%87/" rel="prev" title="LLM部署-部署篇">
+                  <i class="fa fa-chevron-left"></i> LLM部署-部署篇
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Czh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
