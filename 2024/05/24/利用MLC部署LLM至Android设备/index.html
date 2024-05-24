@@ -26,15 +26,15 @@
 <meta property="og:site_name" content="changye-chen">
 <meta property="og:description" content="安装MLCinstall from pip从Document获知使用下面的命令安装MLC 12conda activate your-environmentpython -m pip install --pre -U -f https:&#x2F;&#x2F;mlc.ai&#x2F;wheels mlc-llm-nightly-cu121 mlc-ai-nightly-cu121 (注意CUDA版本) 检查安装1python">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://changye-chen.github.io.git/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image.png">
-<meta property="og:image" content="https://changye-chen.github.io.git/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image-1.png">
-<meta property="og:image" content="https://changye-chen.github.io.git/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image-2.png">
+<meta property="og:image" content="https://changye-chen.github.io.git/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image.png">
+<meta property="og:image" content="https://changye-chen.github.io.git/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image-1.png">
+<meta property="og:image" content="https://changye-chen.github.io.git/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image-2.png">
 <meta property="article:published_time" content="2024-05-24T09:54:22.000Z">
-<meta property="article:modified_time" content="2024-05-24T11:10:56.054Z">
+<meta property="article:modified_time" content="2024-05-24T11:21:27.244Z">
 <meta property="article:author" content="Czh">
 <meta property="article:tag" content="C&#x2F;C++, LLM, Bash, study">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://changye-chen.github.io.git/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image.png">
+<meta name="twitter:image" content="https://changye-chen.github.io.git/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image.png">
 
 
 <link rel="canonical" href="https://changye-chen.github.io.git/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/">
@@ -192,7 +192,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-05-24 17:54:22 / 修改时间：19:10:56" itemprop="dateCreated datePublished" datetime="2024-05-24T17:54:22+08:00">2024-05-24</time>
+      <time title="创建时间：2024-05-24 17:54:22 / 修改时间：19:21:27" itemprop="dateCreated datePublished" datetime="2024-05-24T17:54:22+08:00">2024-05-24</time>
     </span>
 
   
@@ -209,11 +209,16 @@
 <p>(注意CUDA版本)</p>
 <h3 id="检查安装"><a href="#检查安装" class="headerlink" title="检查安装"></a>检查安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c &quot;import mlc_llm; print(mlc_llm)&quot;</span><br></pre></td></tr></table></figure>
 <p>如果没有报错，说明安装成功</p>
-<h1 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h1><h3 id="安装Android-Studio"><a href="#安装Android-Studio" class="headerlink" title="安装Android Studio"></a>安装Android Studio</h3><p>从<a target="_blank" rel="noopener" href="https://developer.android.com/studio">官网</a>下载安装<br>第一次启动会提示配置代理，按下图配置<br><img src="image.png" alt="alt text"><br>图中代理更换为你自己的网络代理即可，可以使用connection check<br><img src="image-1.png" alt="alt text"></p>
-<h3 id="配置Android-Studio"><a href="#配置Android-Studio" class="headerlink" title="配置Android Studio"></a>配置Android Studio</h3><p>打开Android Studio，点击Configure-&gt;SDK Manager<br>在SDK Tools中保证勾选NDK,CMAKE,AndroidPlatformTools<br><img src="image-2.png" alt="alt text"><br>图中没有勾选的CMAKE是因为作者已经安装了CMAKE，如果没有安装请勾选</p>
+<h1 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h1><h3 id="安装Android-Studio"><a href="#安装Android-Studio" class="headerlink" title="安装Android Studio"></a>安装Android Studio</h3><p>从<a target="_blank" rel="noopener" href="https://developer.android.com/studio">官网</a>下载安装<br>第一次启动会提示配置代理，按下图配置</p>
+<p><img src="./%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image.png" alt="alt text"></p>
+<p>图中代理更换为你自己的网络代理即可，可以使用connection check</p>
+<p><img src="./%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image-1.png" alt="alt text"></p>
+<h3 id="配置Android-Studio"><a href="#配置Android-Studio" class="headerlink" title="配置Android Studio"></a>配置Android Studio</h3><p>打开Android Studio，点击Configure-&gt;SDK Manager<br>在SDK Tools中保证勾选NDK,CMAKE,AndroidPlatformTools</p>
+<p><img src="./%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/image-2.png" alt="alt text"></p>
+<p>图中没有勾选的CMAKE是因为作者已经安装了CMAKE，如果没有安装请勾选</p>
 <h3 id="安装JAVA"><a href="#安装JAVA" class="headerlink" title="安装JAVA"></a>安装JAVA</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure>
 <p>保证PATH中有JAVA_HOME且jdk版本为&gt;17</p>
-<h3 id="克隆项目mlc-llm"><a href="#克隆项目mlc-llm" class="headerlink" title="克隆项目mlc-llm"></a>克隆项目mlc-llm</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/mlc-ai/mlc-llm.git                                               ─╯</span><br><span class="line">cd mlc-llm</span><br><span class="line">git submodule update --init --recursive</span><br></pre></td></tr></table></figure>
+<h3 id="克隆项目mlc-llm"><a href="#克隆项目mlc-llm" class="headerlink" title="克隆项目mlc-llm"></a>克隆项目mlc-llm</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/mlc-ai/mlc-llm.git</span><br><span class="line">cd mlc-llm</span><br><span class="line">git submodule update --init --recursive</span><br></pre></td></tr></table></figure>
 <h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p>在.bashrc或者.zshrc中添加</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function mlc-config() &#123;</span><br><span class="line">    export ANDROID_HOME=$HOME/Android/Sdk</span><br><span class="line">    export ANDROID_NDK=$HOME/Android/Sdk/ndk/27.0.11718014</span><br><span class="line">    export PATH=$PATH:$HOME/Android/Sdk/build-tools</span><br><span class="line">    export PATH=$PATH:$HOME/Android/Sdk/platform-tools</span><br><span class="line">    export TVM_NDK_CC=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang</span><br><span class="line">    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64</span><br><span class="line">    export TVM_SOURCE_DIR=$HOME/mlc/mlc-llm/3rdparty/tvm</span><br><span class="line">    export MLC_LLM_HOME=$HOME/mlc/mlc-llm</span><br><span class="line">    export MLC_LLM_SOURCE_DIR=$HOME/mlc/mlc-llm</span><br><span class="line">&#125;</span><br><span class="line">如果是windows系统，在系统环境变量中添加</span><br></pre></td></tr></table></figure>
 <p>此处的mlc-llm即为上述克隆的项目路径，其中含有第三方库tvm<br>上述代码为作者的环境变量配置，根据自己的安装路径修改</p>
