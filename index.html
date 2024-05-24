@@ -182,7 +182,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-05-24 17:54:22 / 修改时间：19:44:28" itemprop="dateCreated datePublished" datetime="2024-05-24T17:54:22+08:00">2024-05-24</time>
+      <time title="创建时间：2024-05-24 17:54:22 / 修改时间：19:47:04" itemprop="dateCreated datePublished" datetime="2024-05-24T17:54:22+08:00">2024-05-24</time>
     </span>
 
   
@@ -228,9 +228,10 @@
 <h3 id="生成mlc-chat-config-json文件"><a href="#生成mlc-chat-config-json文件" class="headerlink" title="生成mlc-chat-config.json文件"></a>生成mlc-chat-config.json文件</h3><p>mlc-chat-config.json是一个用于部署模型的配置文件，我们可以使用mlc_llm gen_config命令生成<br>mlc-chat-config.json的作用有两个：</p>
 <ol>
 <li>为TVM编译提供模型的配置信息</li>
-<li>提供了chat模板，用于部署模型<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mlc_llm gen_config $MODLE_NAME \</span><br><span class="line">    --quantization $QUANTIZATION \</span><br><span class="line">    --device $DEVICE \</span><br><span class="line">    --model_type $MODEL_TYPE \</span><br><span class="line">    --output $OUTPUT_DIR</span><br></pre></td></tr></table></figure>
-执行完上述命令后，会在$OUTPUT_DIR下生成mlc-chat-config.json文件</li>
+<li>提供了chat模板，用于部署模型</li>
 </ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mlc_llm gen_config $MODLE_NAME \</span><br><span class="line">    --quantization $QUANTIZATION \</span><br><span class="line">    --device $DEVICE \</span><br><span class="line">    --model_type $MODEL_TYPE \</span><br><span class="line">    --output $OUTPUT_DIR</span><br></pre></td></tr></table></figure>
+<p>执行完上述命令后，会在$OUTPUT_DIR下生成mlc-chat-config.json文件</p>
 <p>上述所有步骤完成后，我们已经准备好了模型<br>我们得到的目录结构如下</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-added_tokens.json     </span><br><span class="line">-mlc-chat-config.json  </span><br><span class="line">-ndarray-cache.json</span><br><span class="line">-params_shard_1.bin</span><br><span class="line">...</span><br><span class="line">-tokenizer.json</span><br><span class="line">-tokenizer.model</span><br><span class="line">-tokenizer_config.json</span><br></pre></td></tr></table></figure>
 
