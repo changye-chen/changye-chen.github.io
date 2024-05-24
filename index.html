@@ -121,7 +121,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -143,6 +143,120 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://changye-chen.github.io.git/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Czh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="changye-chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | changye-chen">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/05/24/%E5%88%A9%E7%94%A8MLC%E9%83%A8%E7%BD%B2LLM%E8%87%B3Android%E8%AE%BE%E5%A4%87/" class="post-title-link" itemprop="url">利用MLC部署LLM至Android设备</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-05-24 17:54:22 / 修改时间：19:10:56" itemprop="dateCreated datePublished" datetime="2024-05-24T17:54:22+08:00">2024-05-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="安装MLC"><a href="#安装MLC" class="headerlink" title="安装MLC"></a>安装MLC</h1><h3 id="install-from-pip"><a href="#install-from-pip" class="headerlink" title="install from pip"></a>install from pip</h3><p>从<a target="_blank" rel="noopener" href="https://llm.mlc.ai/docs/install/mlc_llm.html#install-mlc-packages">Document</a>获知<br>使用下面的命令安装MLC</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda activate your-environment</span><br><span class="line">python -m pip install --pre -U -f https://mlc.ai/wheels mlc-llm-nightly-cu121 mlc-ai-nightly-cu121</span><br></pre></td></tr></table></figure>
+<p>(注意CUDA版本)</p>
+<h3 id="检查安装"><a href="#检查安装" class="headerlink" title="检查安装"></a>检查安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c &quot;import mlc_llm; print(mlc_llm)&quot;</span><br></pre></td></tr></table></figure>
+<p>如果没有报错，说明安装成功</p>
+<h1 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h1><h3 id="安装Android-Studio"><a href="#安装Android-Studio" class="headerlink" title="安装Android Studio"></a>安装Android Studio</h3><p>从<a target="_blank" rel="noopener" href="https://developer.android.com/studio">官网</a>下载安装<br>第一次启动会提示配置代理，按下图配置<br><img src="image.png" alt="alt text"><br>图中代理更换为你自己的网络代理即可，可以使用connection check<br><img src="image-1.png" alt="alt text"></p>
+<h3 id="配置Android-Studio"><a href="#配置Android-Studio" class="headerlink" title="配置Android Studio"></a>配置Android Studio</h3><p>打开Android Studio，点击Configure-&gt;SDK Manager<br>在SDK Tools中保证勾选NDK,CMAKE,AndroidPlatformTools<br><img src="image-2.png" alt="alt text"><br>图中没有勾选的CMAKE是因为作者已经安装了CMAKE，如果没有安装请勾选</p>
+<h3 id="安装JAVA"><a href="#安装JAVA" class="headerlink" title="安装JAVA"></a>安装JAVA</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openjdk-17-jdk</span><br></pre></td></tr></table></figure>
+<p>保证PATH中有JAVA_HOME且jdk版本为&gt;17</p>
+<h3 id="克隆项目mlc-llm"><a href="#克隆项目mlc-llm" class="headerlink" title="克隆项目mlc-llm"></a>克隆项目mlc-llm</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/mlc-ai/mlc-llm.git                                               ─╯</span><br><span class="line">cd mlc-llm</span><br><span class="line">git submodule update --init --recursive</span><br></pre></td></tr></table></figure>
+<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p>在.bashrc或者.zshrc中添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function mlc-config() &#123;</span><br><span class="line">    export ANDROID_HOME=$HOME/Android/Sdk</span><br><span class="line">    export ANDROID_NDK=$HOME/Android/Sdk/ndk/27.0.11718014</span><br><span class="line">    export PATH=$PATH:$HOME/Android/Sdk/build-tools</span><br><span class="line">    export PATH=$PATH:$HOME/Android/Sdk/platform-tools</span><br><span class="line">    export TVM_NDK_CC=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang</span><br><span class="line">    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64</span><br><span class="line">    export TVM_SOURCE_DIR=$HOME/mlc/mlc-llm/3rdparty/tvm</span><br><span class="line">    export MLC_LLM_HOME=$HOME/mlc/mlc-llm</span><br><span class="line">    export MLC_LLM_SOURCE_DIR=$HOME/mlc/mlc-llm</span><br><span class="line">&#125;</span><br><span class="line">如果是windows系统，在系统环境变量中添加</span><br></pre></td></tr></table></figure>
+<p>此处的mlc-llm即为上述克隆的项目路径，其中含有第三方库tvm<br>上述代码为作者的环境变量配置，根据自己的安装路径修改</p>
+<h3 id="使环境变量生效"><a href="#使环境变量生效" class="headerlink" title="使环境变量生效"></a>使环境变量生效</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source .bashrc</span><br><span class="line">mlc-config</span><br></pre></td></tr></table></figure>
+
+<h1 id="准备模型"><a href="#准备模型" class="headerlink" title="准备模型"></a>准备模型</h1><h3 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h3><p>这里有两种模型，一种是基于TVM的模型，一种是基于huggingface的模型, mlc.ai已经提供了一些TVM模型，可以从<a target="_blank" rel="noopener" href="https://huggingface.co/mlc-ai">这里</a>下载，huggingface模型可以从<a target="_blank" rel="noopener" href="https://huggingface.co/models">这里</a>下载</p>
+<h3 id="转换模型"><a href="#转换模型" class="headerlink" title="转换模型"></a>转换模型</h3><p>根据命令:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mlc_llm convert_weight \</span><br><span class="line">    CONFIG \</span><br><span class="line">    --quantization QUANTIZATION_MODE \</span><br><span class="line">    [--model-type MODEL_TYPE] \</span><br><span class="line">    [--device DEVICE] \</span><br><span class="line">    [--source SOURCE] \ #The path to original model weight, infer from config if missing.</span><br><span class="line">    [--source-format SOURCE_FORMAT] \ #The path to original model weight, infer from config if missing.</span><br><span class="line">    --output OUTPUT</span><br></pre></td></tr></table></figure>
+<p>我们知道，config一般和模型权重文件在同一目录下，所以我们省去了source参数，我们需要提供quantization, model-type, device, output参数<br>以microsoft/Phi-3-mini-4k-instruct为例，该模型是基于huggingface的safetensor模型，我们需要将其转换为TVM模型</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MODLE_NAME=path/to/microsoft/Phi-3-mini-4k-instruct # 模型路径</span><br><span class="line">QUANTIZATION=q4f16_1 # 量化方式, 使用mlc-llm convert_weight -h查看支持的量化方式</span><br><span class="line">OUTPUT_DIR=path/to/output # 输出路径</span><br><span class="line">DEVICE=Android # 设备</span><br><span class="line">MODEL_TYPE=Phi-3 # 模型架构</span><br><span class="line">mlc_llm convert_weight $MODLE_NAME \</span><br><span class="line">    --quantization $QUANTIZATION \</span><br><span class="line">    --device $DEVICE \</span><br><span class="line">    --model_type $MODEL_TYPE \</span><br><span class="line">    --output $OUTPUT_DIR </span><br></pre></td></tr></table></figure>
+
+
+<h3 id="生成mlc-chat-config-json文件"><a href="#生成mlc-chat-config-json文件" class="headerlink" title="生成mlc-chat-config.json文件"></a>生成mlc-chat-config.json文件</h3><p>mlc-chat-config.json是一个用于部署模型的配置文件，我们可以使用mlc_llm gen_config命令生成<br>mlc-chat-config.json的作用有两个：</p>
+<ol>
+<li>为TVM编译提供模型的配置信息</li>
+<li>提供了chat模板，用于部署模型<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mlc_llm gen_config $MODLE_NAME \</span><br><span class="line">    --quantization $QUANTIZATION \</span><br><span class="line">    --device $DEVICE \</span><br><span class="line">    --model_type $MODEL_TYPE \</span><br><span class="line">    --output $OUTPUT_DIR</span><br></pre></td></tr></table></figure>
+执行完上述命令后，会在$OUTPUT_DIR下生成mlc-chat-config.json文件</li>
+</ol>
+<p>上述所有步骤完成后，我们已经准备好了模型<br>我们得到的目录结构如下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-added_tokens.json     </span><br><span class="line">-mlc-chat-config.json  </span><br><span class="line">-ndarray-cache.json</span><br><span class="line">-params_shard_1.bin</span><br><span class="line">...</span><br><span class="line">-tokenizer.json</span><br><span class="line">-tokenizer.model</span><br><span class="line">-tokenizer_config.json</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译并打包模型"><a href="#编译并打包模型" class="headerlink" title="编译并打包模型"></a>编译并打包模型</h3><p>在多数时候，你并不需要手动编译模型，在本文中，我们要构建一个Android的apk<br>mlc-llm提供了一个命令，可以直接完成编译和打包工作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd path/to/mlc-llm/android/MLCChat</span><br><span class="line">vim mlc-package-config.json</span><br></pre></td></tr></table></figure>
+<p>在这里，我们需要修改mlc-package-config.json文件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;android&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;model_list&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;model&quot;</span><span class="punctuation">:</span> <span class="string">&quot;path/to/output/Phi-3-mini-4k-instruct&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;model_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Phi-3-mini-4k-instruct&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;estimated_vram_bytes&quot;</span><span class="punctuation">:</span> <span class="number">2152151044</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;bundle_weight&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>estimated_vram_bytes是模型的内存占用，可以通过下面的命令查看</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -b path/to/output/Phi-3-mini-4k-instruct</span><br></pre></td></tr></table></figure>
+<p>bundle_weight代表是否将模型打包进apk，如果为false，则模型会被下载到设备上，这个时候model字段应该是模型的下载链接<br>修改完后，我们可以执行下面的命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mlc_llm package</span><br></pre></td></tr></table></figure>
+<p>等待编译完成</p>
+<h3 id="构建Android项目和安装apk"><a href="#构建Android项目和安装apk" class="headerlink" title="构建Android项目和安装apk"></a>构建Android项目和安装apk</h3><p>使用Android Studio打开path/to/mlc-llm/android/MLCChat<br>等待gradle同步完成后，点击build-&gt;build bundle(s)/APK(s)-&gt;Build APK(s)<br>这里需要签名，可以根据<a target="_blank" rel="noopener" href="https://developer.android.com/studio/publish/app-signing#generate-key">官网</a>生成签名文件</p>
+<p>经过build android/MLCChat/app/release/app-release.apk就是我们要的apk文件</p>
+<p>注意虚拟机无法运行MLCChat，因为模拟器不支持GPU，所以需要使用真机测试<br>要将apk安装到设备上，使用adb<br>先确保设备连接，并开启usb调试模式，然后执行下面的命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb devices # 查看设备是否连接</span><br><span class="line">cd path/to/mlc-llm/android/MLCChat/</span><br><span class="line">python bundle_weight.py --apk-path app/release/app-release.apk #这个命令先会将apk安装到设备上，然后会将模型放在设备上</span><br></pre></td></tr></table></figure>
+<p>安装完成后，我们可以在设备上看到一个名为MLCChat的应用，打开后即可使用模型</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -188,7 +302,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-10-25 15:55:00" itemprop="dateModified" datetime="2023-10-25T15:55:00+08:00">2023-10-25</time>
+      <time title="修改时间：2023-10-25 20:57:13" itemprop="dateModified" datetime="2023-10-25T20:57:13+08:00">2023-10-25</time>
     </span>
 
   
@@ -215,7 +329,11 @@
 <h4 id="locate-and-Edit"><a href="#locate-and-Edit" class="headerlink" title="locate and Edit"></a>locate and Edit</h4><p>这个方法专注于对症下药，通过一系列假设推定特定知识的参数位置，直接更新这部分权重来代表知识<br>更新，2017年一篇文章曾经指出transformer的前馈神经网络事实上是键值对记忆体，Dai等人提出知识<br>神经元的概念，并给出一种在前馈神经网络中标识知识神经元的方法。不久后，在没有微调的情况下，<br>他们直接修改了一些关联的值群，成功更新或删除了知识。</p>
 <p>下面一段内容我现在不是很了解，暂时贴译文<br>与Geva等人(2021)的每个神经元视图不同，孟等人(2022a)对GPT-2进行随意跟踪分析，并假设<br>Transformer MLP可以被视为线性联想记忆。他们通过使用一级更新直接更新中间层 MLP 权重来验证他<br>们的假设（Baum 等人，2020）。继孟等人(2022a)的工作之后，孟等人(2023)提出了一种可扩展的多层<br>方法来同时更新具有数千个事实的LLM，在保持泛化和特异性的同时显著提高了编辑效率。古普塔等人。<br>(2023a) 进一步适应它修复常识性错误。Li等人(2023b)发现Multi-Head SelfAttention (MHSA)权重在<br>引入新知识时不需要更新。在此基础上，他们提出通过同时优化MHSA和FFN的Transformer组件隐藏状态<br>来记忆目标知识来精确更新FFN权重。Chen等人(2023b)提出了一种架构适应的多语言集成梯度方法，以<br>在多个架构和语言中精确地定位知识神经元。Geva等人(2023)分析了自回归lm中事实关联的内部回忆过<br>程，为知识定位和模型编辑开辟了新的研究方向。</p>
 <h4 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h4><p>任何方法都需要评估有效性的标准，这段主要提及评估知识编辑有效性的框架和数据集</p>
-<h3 id="continual-learning"><a href="#continual-learning" class="headerlink" title="continual learning"></a>continual learning</h3><p>持续学习旨在使模型具有学习连续性数据流且减少灾难性遗忘的能力</p>
+<h3 id="continual-learning"><a href="#continual-learning" class="headerlink" title="continual learning"></a>continual learning</h3><p>持续学习旨在使模型具有学习连续性数据流且减少灾难性遗忘的能力,本文将其划分为continual<br>pre-training 和 continual knowledge editing</p>
+<h4 id="continual-pre-training"><a href="#continual-pre-training" class="headerlink" title="continual pre-training"></a>continual pre-training</h4><p>continual pre-training 意在关注关于字面意义上连续预训练的方法，早期的一些工作表明在预训练模<br>型的基础上继续预训练是有一定潜力的，并且有一些文章已经对世界知识做了讨论，当不断学习时，模<br>型应该保留、获取和更新这些知识。continual pre-training 可以划分为正则化，重映和基于结构的方<br>法。</p>
+<h5 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h5><p>基于正则化的方法是为了应对灾难性遗忘所提出的，它提出一些规则来惩罚先前数据中学习的关键参数<br>的变化，Ke等人(2023)使用基于模型鲁棒性的代理计算每个单元(即注意头和神经元)对LM中一般知识的<br>重要性，以保留学习到的知识。当持续学习新领域时，该方法可以防止对一般知识和领域知识的灾难性<br>遗忘，并通过软掩蔽和对比损失鼓励知识转移。</p>
+<h5 id="重映"><a href="#重映" class="headerlink" title="重映"></a>重映</h5><p>这种方法很好理解，在初始预训练语料库可用的情况下，继续预训练时掺入或替换合理质量的新世界知<br>识，以期达到既不遗忘以前的知识，又能学习新的知识的目的。</p>
+<h5 id="结构化"><a href="#结构化" class="headerlink" title="结构化"></a>结构化</h5><p>这种方法考虑现实因素，采用不同参数子集来应对不同的语言任务，例如适配器网络，通过冻结原始参<br>数以保留学习到的知识，并添加轻量级的可调参数来持续学习新知识。（我觉得这就是微调呢）当然还<br>有不冻结原始参数的，例如采用</p>
 
       
     </div>
@@ -599,7 +717,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
